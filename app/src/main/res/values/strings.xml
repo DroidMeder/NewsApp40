@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">NewsApp40</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="profile">Profile</string>
+    <string name="hello_blank_fragment">hello_blank_fragment</string>
+    <string name="todo">TODO</string>
+    <string name="news">Введите новость</string>
+    <string name="save">Save</string>
+    <string name="text">Text: </string>
+    <string name="date">date</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="get_started">Get started</string>
+    <string name="skip">Skip</string>
+</resources>
