@@ -20,6 +20,7 @@ import kg.geekteck.newsapp40.R;
 import kg.geekteck.newsapp40.adaptors.BoardAdaptor;
 import kg.geekteck.newsapp40.databinding.FragmentBoardBinding;
 import kg.geekteck.newsapp40.interfaces.Click;
+import kg.geekteck.newsapp40.ui.models.Prefs;
 
 public class BoardFragment extends Fragment implements Click {
     private FragmentBoardBinding binding;
@@ -80,6 +81,8 @@ public class BoardFragment extends Fragment implements Click {
 
     @Override
     public void click() {
+        Prefs prefs = new Prefs(requireContext());
+        prefs.saveBoardState();
         NavController navController = Navigation.findNavController(requireActivity(),
                 R.id.nav_host_fragment_activity_main);
         navController.navigateUp();

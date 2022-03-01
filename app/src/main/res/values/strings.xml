@@ -14,4 +14,6 @@
     <string name="description">Description</string>
     <string name="get_started">Get started</string>
     <string name="skip">Skip</string>
+    <string name="clean_cash">Clean cash</string>
+    <string name="name">Name</string>
 </resources>
