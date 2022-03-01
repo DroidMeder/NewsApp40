@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.item_clean_cash:
                 prefs.clean();
+                ///
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
