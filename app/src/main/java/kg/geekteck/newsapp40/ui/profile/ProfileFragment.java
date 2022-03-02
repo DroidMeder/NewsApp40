@@ -20,6 +20,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+
 import java.io.ByteArrayOutputStream;
 
 import kg.geekteck.newsapp40.R;
@@ -28,11 +30,14 @@ import kg.geekteck.newsapp40.ui.models.Prefs;
 
 public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
+    private Uri uri;
     private Prefs prefs;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("onCreate");
+
     }
 
     @Override
@@ -65,9 +70,9 @@ public class ProfileFragment extends Fragment {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         assert data != null;
-                        Uri selectedImage = data.getData();
-                        binding.imageView.setImageURI(selectedImage);
-                        prefs.putValues(setProfileImage(),
+                        uri = data.getData();
+                        binding.imageView.setImageURI(uri);
+                        prefs.putValues(String.valueOf(uri),
                                 binding.editTextTextPersonName.getText().toString());
                     }
                 }
@@ -83,10 +88,28 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        System.out.println("onStart");
+        if (prefs.getImage()!=null) {
+            uri = Uri.parse(prefs.getImage());
+            Glide.with(requireContext()).load(uri).circleCrop().into(binding.imageView);
+        }
+        String a = prefs.getValue();
+        binding.editTextTextPersonName.setText(a);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        System.out.println("onStop");
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         System.out.println("onPause");
-        prefs.putValues(setProfileImage(),
+        prefs.putValues(String.valueOf(uri),
                 binding.editTextTextPersonName.getText().toString());
     }
 
@@ -94,21 +117,7 @@ public class ProfileFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         System.out.println("onDestroy");
-        prefs.putValues(setProfileImage(),
+        prefs.putValues(String.valueOf(uri),
                 binding.editTextTextPersonName.getText().toString());
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        System.out.println("onResume");
-        String s1 = prefs.getImage(setProfileImage());
-        byte[] imageAsBytes = Base64.decode(s1.getBytes(), Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(imageAsBytes,0, imageAsBytes.length);
-        binding.imageView.setImageBitmap(bitmap);
-
-        String a = prefs.getValue();
-        binding.editTextTextPersonName.setText(a);
-    }
-
 }

@@ -1,6 +1,7 @@
 package kg.geekteck.newsapp40;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileObserver;
@@ -71,10 +72,10 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.item_clean_cash:
                 prefs.clean();
-                ///
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

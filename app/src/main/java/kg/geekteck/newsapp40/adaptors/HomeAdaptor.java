@@ -1,5 +1,6 @@
 package kg.geekteck.newsapp40.adaptors;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -16,7 +17,7 @@ import kg.geekteck.newsapp40.databinding.Item1Binding;
 import kg.geekteck.newsapp40.databinding.ItemBinding;
 
 public class HomeAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final List<News> list;
+    private List<News> list;
     ItemBinding binding;
     Item1Binding binding1;
 
@@ -65,6 +66,10 @@ public class HomeAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         list.add(0, n);
         notifyItemInserted(0);
     }
+    public void addItems(List<News> newsList){
+        list= newsList;
+        notifyDataSetChanged();
+    }
 
     protected static class VH1 extends RecyclerView.ViewHolder {
         ItemBinding binding;
@@ -77,8 +82,9 @@ public class HomeAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind1(News news) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy", Locale.ROOT);
             String str = String.valueOf(simpleDateFormat.format(news.getCreatedAt()));
-            binding.tvTitle.setText(String.format("%s%s", String.format("Title:  %s;\n",
-                    news.getTitle()), String.format("Created at:  %s.", str)));
+           /* binding.tvTitle.setText(String.format("%s%s", String.format("Title:  %s;\n",
+                    news.getTitle()), String.format("Created at:  %s.", str)));*/
+            binding.tvTitle.setText(news.getTitle()+"              "+str);
         }
     }
 
@@ -93,8 +99,9 @@ public class HomeAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind2(News news) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy", Locale.ROOT);
             String str = String.valueOf(simpleDateFormat.format(news.getCreatedAt()));
-            binding.tvTitle1.setText(String.format("%s%s", String.format("Title: %s;\n",
-                    news.getTitle()), String.format("Created at: %s.", str)));
+           /* binding.tvTitle1.setText(String.format("%s%s", String.format("Title: %s;\n",
+                    news.getTitle()), String.format("Created at: %s.", str)));*/
+            binding.tvTitle1.setText(news.getTitle()+"              "+str);
         }
     }
 }

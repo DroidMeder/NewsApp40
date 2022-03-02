@@ -26,13 +26,18 @@ public class Prefs {
     public void putValues(String image, String field){
         preferences.edit().putString("image_resource", image).putString("value_of_field", field).apply();
     }
-    public String getImage(String def){
-        return preferences.getString("image_resource", def);
+    public String getImage(){
+        Uri path = Uri.parse("android.resource://kg.geekteck.newsapp40/" + R.drawable._image_rick);
+        String imgPath = path.toString();
+        System.out.println(imgPath);
+        return preferences.getString("image_resource", imgPath);
     }
     public String getValue(){
+
         return preferences.getString("value_of_field", "");
     }
     public void clean(){
-        preferences.edit().clear().apply();
+        preferences.edit().remove("image_resource").apply();
+        preferences.edit().remove("value_of_field").apply();
     }
 }

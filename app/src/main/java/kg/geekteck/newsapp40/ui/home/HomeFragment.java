@@ -1,5 +1,6 @@
 package kg.geekteck.newsapp40.ui.home;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +13,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
+
+import kg.geekteck.newsapp40.App;
 import kg.geekteck.newsapp40.ui.models.News;
 import kg.geekteck.newsapp40.R;
 import kg.geekteck.newsapp40.adaptors.HomeAdaptor;
@@ -43,13 +47,17 @@ public class HomeFragment extends Fragment {
                     R.id.nav_host_fragment_activity_main);
             navController.navigate(R.id.newsFragment);
         });
+
         binding.rec.setAdapter(homeAdaptor);
+        List<News> newsList = App.dataBase.newsDao().getAllNews();
+        homeAdaptor.addItems(newsList);
+
         getParentFragmentManager().setFragmentResultListener("rk_news", getViewLifecycleOwner(), (requestKey, result) -> {
-            News n = (News) result.getSerializable("news");
-            homeAdaptor.addItem(n);
+            /*News n = (News) result.getSerializable("news");
+            homeAdaptor.addItem(n);*/
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy", Locale.ROOT);
-            String str = String.valueOf(simpleDateFormat.format(n.getCreatedAt()));
-            Log.e("Home", "Title: " +n.getTitle()+ "; CreatedAt: "+str);
+            //String str = String.valueOf(simpleDateFormat.format(n.getCreatedAt()));
+            //Log.e("Home", "Title: " +n.getTitle()+ "; CreatedAt: "+str);
         });
     }
 
