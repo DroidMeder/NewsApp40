@@ -18,10 +18,12 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.transition.TransitionInflater;
 
 import com.bumptech.glide.Glide;
 
 import kg.geekteck.newsapp40.MainActivity;
+import kg.geekteck.newsapp40.R;
 import kg.geekteck.newsapp40.databinding.FragmentProfileBinding;
 import kg.geekteck.newsapp40.ui.models.Prefs;
 
@@ -33,6 +35,9 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TransitionInflater inflate = TransitionInflater.from(requireContext());
+        setEnterTransition(inflate.inflateTransition(R.transition.explode));
+        setExitTransition(inflate.inflateTransition(R.transition.fade_in));
         System.out.println("onCreate");
     }
 
