@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.transition.TransitionInflater;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,15 @@ import kg.geekteck.newsapp40.databinding.FragmentNewsBinding;
 
 public class NewsFragment extends Fragment {
     private FragmentNewsBinding binding;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        TransitionInflater inflate = TransitionInflater.from(requireContext());
+        setEnterTransition(inflate.inflateTransition(R.transition.fade_out));
+        setExitTransition(inflate.inflateTransition(R.transition.fade_in));
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

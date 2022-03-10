@@ -1,8 +1,6 @@
 package kg.geekteck.newsapp40.ui.home;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +9,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.transition.TransitionInflater;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
 import kg.geekteck.newsapp40.App;
-import kg.geekteck.newsapp40.ui.models.News;
 import kg.geekteck.newsapp40.R;
 import kg.geekteck.newsapp40.adaptors.HomeAdaptor;
 import kg.geekteck.newsapp40.databinding.FragmentHomeBinding;
+import kg.geekteck.newsapp40.ui.models.News;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
@@ -29,6 +28,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TransitionInflater inflate = TransitionInflater.from(requireContext());
+        setExitTransition(inflate.inflateTransition(R.transition.fade));
+        setEnterTransition(inflate.inflateTransition(R.transition.explode));
         homeAdaptor = new HomeAdaptor();
     }
 

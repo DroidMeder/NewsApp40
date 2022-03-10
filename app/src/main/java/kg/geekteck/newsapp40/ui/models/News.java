@@ -17,7 +17,6 @@ public class News implements Serializable {
     @ColumnInfo(name = "description")
     String description;
 
-
     public News(String title, long createdAt, String description) {
         setTitle(title);
         setCreatedAt(createdAt);

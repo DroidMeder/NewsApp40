@@ -16,4 +16,8 @@
     <string name="skip">Skip</string>
     <string name="clean_cash">Clean cash</string>
     <string name="name">Name</string>
+    <string name="username">username</string>
+    <string name="check">Check</string>
+    <string name="address">Address</string>
+    <string name="password">password</string>
 </resources>

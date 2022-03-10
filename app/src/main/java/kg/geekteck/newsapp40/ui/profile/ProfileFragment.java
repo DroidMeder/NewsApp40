@@ -3,10 +3,14 @@ package kg.geekteck.newsapp40.ui.profile;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -15,35 +19,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Base64;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.bumptech.glide.Glide;
 
-import java.io.ByteArrayOutputStream;
-
-import kg.geekteck.newsapp40.R;
+import kg.geekteck.newsapp40.MainActivity;
 import kg.geekteck.newsapp40.databinding.FragmentProfileBinding;
 import kg.geekteck.newsapp40.ui.models.Prefs;
 
 public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
     private Uri uri;
-    private Prefs prefs;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("onCreate");
-
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding=FragmentProfileBinding.inflate(inflater, container, false);
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -51,7 +47,32 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.imageView.setOnClickListener(v -> openYourActivity());
-        prefs=new Prefs(requireContext());
+        initEdidtext();
+        System.out.println("profile -1---" + MainActivity.prefs.getValue());
+        binding.editTextTextPersonName.setText(MainActivity.prefs.getValue());
+        /*  System.out.println("profile -2---"+prefs.getValue());
+        binding.editTextTextPersonName.setText(prefs.getValue());*/
+    }
+
+    private void initEdidtext() {
+        binding.editTextTextPersonName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // binding.editTextTextPersonName.setText(prefs.getValue());
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                System.out.println("Editable  s "+s);
+                MainActivity.prefs.putText(binding.editTextTextPersonName.getText().toString());
+                System.out.println("profile -2---" + MainActivity.prefs.getValue());
+            }
+        });
     }
 
     @SuppressLint("IntentReset")
@@ -72,52 +93,18 @@ public class ProfileFragment extends Fragment {
                         assert data != null;
                         uri = data.getData();
                         binding.imageView.setImageURI(uri);
-                        prefs.putValues(String.valueOf(uri),
-                                binding.editTextTextPersonName.getText().toString());
+                        MainActivity.prefs.putImage(String.valueOf(uri));
                     }
                 }
             });
-
-    public String setProfileImage(){
-        binding.imageView.buildDrawingCache();
-        Bitmap bitmap = binding.imageView.getDrawingCache();
-        ByteArrayOutputStream stream=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
-        byte[] image=stream.toByteArray();
-        return Base64.encodeToString(image, 0);
-    }
 
     @Override
     public void onStart() {
         super.onStart();
         System.out.println("onStart");
-        if (prefs.getImage()!=null) {
-            uri = Uri.parse(prefs.getImage());
+        if (MainActivity.prefs.getImage() != null) {
+            uri = Uri.parse(MainActivity.prefs.getImage());
             Glide.with(requireContext()).load(uri).circleCrop().into(binding.imageView);
         }
-        String a = prefs.getValue();
-        binding.editTextTextPersonName.setText(a);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        System.out.println("onStop");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        System.out.println("onPause");
-        prefs.putValues(String.valueOf(uri),
-                binding.editTextTextPersonName.getText().toString());
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        System.out.println("onDestroy");
-        prefs.putValues(String.valueOf(uri),
-                binding.editTextTextPersonName.getText().toString());
     }
 }

@@ -57,10 +57,18 @@ public class BoardAdaptor extends RecyclerView.Adapter<BoardAdaptor.ViewHodler> 
             binding.textDesc.setText(descriptions[position]);
             if (position != getItemCount()-1){
                 binding.button.setVisibility(View.GONE);
-            }else {
+                if (position == 0){
+                    binding.lottie.setAnimation(R.raw.swipe_left);
+                }else {
+                    binding.lottie.setAnimation(R.raw.swipe_right_and_left);
+                    binding.lottie.setSpeed(2f);
+                }
+            }else{
+                binding.lottie.setAnimation(R.raw.swipe_right);
                 binding.button.setVisibility(View.VISIBLE);
                 binding.button.setOnClickListener(v -> onClickClick.click());
             }
+
         }
     }
 }

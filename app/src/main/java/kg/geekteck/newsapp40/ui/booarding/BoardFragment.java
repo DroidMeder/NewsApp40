@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.transition.TransitionInflater;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import kg.geekteck.newsapp40.MainActivity;
 import kg.geekteck.newsapp40.R;
 import kg.geekteck.newsapp40.adaptors.BoardAdaptor;
 import kg.geekteck.newsapp40.databinding.FragmentBoardBinding;
@@ -29,6 +31,9 @@ public class BoardFragment extends Fragment implements Click {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TransitionInflater inflate = TransitionInflater.from(requireContext());
+        setEnterTransition(inflate.inflateTransition(R.transition.slide_up));
+        setExitTransition(inflate.inflateTransition(R.transition.slide_down));
         boardAdaptor=new BoardAdaptor(this);
     }
 
@@ -81,8 +86,8 @@ public class BoardFragment extends Fragment implements Click {
 
     @Override
     public void click() {
-        Prefs prefs = new Prefs(requireContext());
-        prefs.saveBoardState();
+        //Prefs prefs = new Prefs(requireContext());
+        MainActivity.prefs.saveBoardState();
         NavController navController = Navigation.findNavController(requireActivity(),
                 R.id.nav_host_fragment_activity_main);
         navController.navigateUp();

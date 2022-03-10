@@ -20,10 +20,12 @@
         <entry key="..\:/Users/ASUS/Downloads/NewsApp40-master/app/src/main/res/drawable/yt.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/ASUS/Downloads/NewsApp40-master/app/src/main/res/layout/activity_main.xml" value="0.11354166666666667" />
         <entry key="..\:/Users/ASUS/Downloads/NewsApp40-master/app/src/main/res/layout/fragment_board.xml" value="0.10400000000000001" />
+        <entry key="..\:/Users/ASUS/Downloads/NewsApp40-master/app/src/main/res/layout/fragment_dashboard.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/ASUS/Downloads/NewsApp40-master/app/src/main/res/layout/fragment_home.xml" value="0.2328125" />
+        <entry key="..\:/Users/ASUS/Downloads/NewsApp40-master/app/src/main/res/layout/fragment_notifications.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/ASUS/Downloads/NewsApp40-master/app/src/main/res/layout/fragment_profile.xml" value="0.11296296296296296" />
         <entry key="..\:/Users/ASUS/Downloads/NewsApp40-master/app/src/main/res/layout/item_board.xml" value="0.23645833333333333" />
-        <entry key="..\:/Users/ASUS/Downloads/NewsApp40-master/app/src/main/res/menu/action_bar_menu.xml" value="0.11296296296296296" />
+        <entry key="..\:/Users/ASUS/Downloads/NewsApp40-master/app/src/main/res/menu/action_bar_menu.xml" value="0.264" />
       </map>
     </option>
   </component>

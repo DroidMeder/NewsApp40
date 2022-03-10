@@ -66,6 +66,7 @@ public class HomeAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         list.add(0, n);
         notifyItemInserted(0);
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void addItems(List<News> newsList){
         list= newsList;
         notifyDataSetChanged();
@@ -79,11 +80,10 @@ public class HomeAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             binding = itemView;
         }
 
+        @SuppressLint("SetTextI18n")
         public void bind1(News news) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy", Locale.ROOT);
             String str = String.valueOf(simpleDateFormat.format(news.getCreatedAt()));
-           /* binding.tvTitle.setText(String.format("%s%s", String.format("Title:  %s;\n",
-                    news.getTitle()), String.format("Created at:  %s.", str)));*/
             binding.tvTitle.setText(news.getTitle()+"              "+str);
         }
     }
@@ -99,8 +99,6 @@ public class HomeAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind2(News news) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy", Locale.ROOT);
             String str = String.valueOf(simpleDateFormat.format(news.getCreatedAt()));
-           /* binding.tvTitle1.setText(String.format("%s%s", String.format("Title: %s;\n",
-                    news.getTitle()), String.format("Created at: %s.", str)));*/
             binding.tvTitle1.setText(news.getTitle()+"              "+str);
         }
     }

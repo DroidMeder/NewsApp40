@@ -1,31 +1,33 @@
 package kg.geekteck.newsapp40;
 
 import android.annotation.SuppressLint;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.FileObserver;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.FragmentNavigator;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import java.io.File;
 import java.util.Objects;
 
 import kg.geekteck.newsapp40.databinding.ActivityMainBinding;
+import kg.geekteck.newsapp40.ui.home.HomeFragmentDirections;
 import kg.geekteck.newsapp40.ui.models.Prefs;
+import kg.geekteck.newsapp40.ui.profile.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
-    private Prefs prefs;
+    public static Prefs prefs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +43,24 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-        Prefs prefs = new Prefs(this);
+        //Prefs prefs = new Prefs(this);
         if (!prefs.isBoardShown()) {
             navController.navigate(R.id.boardFragment);
         }
-
-
-        navController.addOnDestinationChangedListener((navController1, navDestination, bundle) -> {
-            if (navDestination.getId()== R.id.boardFragment){
-                binding.navView.setVisibility(View.GONE);
-                Objects.requireNonNull(getSupportActionBar()).hide();
-            }else {
-                binding.navView.setVisibility(View.VISIBLE);
-                Objects.requireNonNull(getSupportActionBar()).show();
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController navController1, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
+                if (navDestination.getId() == R.id.boardFragment) {
+                    binding.navView.setVisibility(View.GONE);
+                    Objects.requireNonNull(MainActivity.this.getSupportActionBar()).hide();
+                } else if (navDestination.getId() == R.id.navigation_home) {
+                    //navController1.navigate(HomeFragmentDirections.actionNavigationHomeToNavigationDashboard());
+                /*if (HomeFragmentDirections.actionNavigationHomeToNavigationDashboard() == )
+                navController.navigate(HomeFragmentDirections.actionNavigationHomeToNavigationDashboard());*/
+                } else {
+                    binding.navView.setVisibility(View.VISIBLE);
+                    Objects.requireNonNull(MainActivity.this.getSupportActionBar()).show();
+                }
             }
         });
     }
@@ -65,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-     @SuppressLint("NonConstantResourceId")
-     @Override
+    @SuppressLint("NonConstantResourceId")
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.item_clean_cash:
                 prefs.clean();
                 return true;
@@ -77,5 +84,4 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }
