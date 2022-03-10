@@ -50,8 +50,7 @@ public class ProfileFragment extends Fragment {
         initEdidtext();
         System.out.println("profile -1---" + MainActivity.prefs.getValue());
         binding.editTextTextPersonName.setText(MainActivity.prefs.getValue());
-        /*  System.out.println("profile -2---"+prefs.getValue());
-        binding.editTextTextPersonName.setText(prefs.getValue());*/
+        //  System.out.println("profile -2---"+prefs.getValue());
     }
 
     private void initEdidtext() {
