@@ -9,19 +9,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-import kg.geekteck.newsapp40.models.News;
 import kg.geekteck.newsapp40.databinding.Item1Binding;
 import kg.geekteck.newsapp40.databinding.ItemBinding;
+import kg.geekteck.newsapp40.models.News;
 
-public class HomeAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class NotificationsAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<News> list;
-    ItemBinding binding;
-    Item1Binding binding1;
+    ItemBinding binding2;
+    Item1Binding binding3;
 
-    public HomeAdaptor() {
+    public NotificationsAdaptor() {
         list = new ArrayList<>();
     }
 
@@ -29,13 +31,13 @@ public class HomeAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == 0) {
-            binding = ItemBinding.inflate(
+            binding2 = ItemBinding.inflate(
                     LayoutInflater.from(parent.getContext()), parent, false);
-            return new VH1(binding);
+            return new VH1(binding2);
         } else {
-            binding1 = Item1Binding.inflate(
+            binding3 = Item1Binding.inflate(
                     LayoutInflater.from(parent.getContext()), parent, false);
-            return new VH2(binding1);
+            return new VH2(binding3);
         }
     }
 
@@ -68,38 +70,45 @@ public class HomeAdaptor extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     @SuppressLint("NotifyDataSetChanged")
     public void addItems(List<News> newsList){
+        System.out.println(newsList.size());
+        Comparator<News> comparator = Comparator.comparing(News::getCreatedAt);
+        newsList.sort(comparator);
         list= newsList;
+        System.out.println(list.size());
         notifyDataSetChanged();
     }
 
     protected static class VH1 extends RecyclerView.ViewHolder {
-        ItemBinding binding;
+        ItemBinding binding2;
 
         public VH1(@NonNull ItemBinding itemView) {
             super(itemView.getRoot());
-            binding = itemView;
+            binding2 = itemView;
         }
 
         @SuppressLint("SetTextI18n")
         public void bind1(News news) {
+            System.out.println("bind1 -- "+news);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy", Locale.ROOT);
             String str = String.valueOf(simpleDateFormat.format(news.getCreatedAt()));
-            binding.tvTitle.setText(news.getTitle()+"              "+str);
+            binding2.tvTitle.setText(news.getTitle()+"              "+str);
+            System.out.println(binding2.tvTitle.getText());
         }
     }
 
     protected static class VH2 extends RecyclerView.ViewHolder {
-        Item1Binding binding;
+        Item1Binding binding3;
 
         public VH2(@NonNull Item1Binding itemView) {
             super(itemView.getRoot());
-            binding = itemView;
+            binding3 = itemView;
         }
 
         public void bind2(News news) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy", Locale.ROOT);
             String str = String.valueOf(simpleDateFormat.format(news.getCreatedAt()));
-            binding.tvTitle1.setText(String.format("%s          %s", news.getTitle(), str));
+            binding3.tvTitle1.setText(String.format("%s          %s", news.getTitle(), str));
+            System.out.println(binding3.tvTitle1.getText());
         }
     }
 }

@@ -2,8 +2,12 @@ package kg.geekteck.newsapp40.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -19,11 +23,12 @@ import kg.geekteck.newsapp40.App;
 import kg.geekteck.newsapp40.R;
 import kg.geekteck.newsapp40.adaptors.HomeAdaptor;
 import kg.geekteck.newsapp40.databinding.FragmentHomeBinding;
-import kg.geekteck.newsapp40.ui.models.News;
+import kg.geekteck.newsapp40.models.News;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeAdaptor homeAdaptor;
+    private List<News> newsList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,8 +42,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+        setHasOptionsMenu(true);
         return binding.getRoot();
-
     }
 
     @Override
@@ -51,16 +56,36 @@ public class HomeFragment extends Fragment {
         });
 
         binding.rec.setAdapter(homeAdaptor);
-        List<News> newsList = App.dataBase.newsDao().getAllNews();
+        newsList = App.dataBase.newsDao().getAllNews();
         homeAdaptor.addItems(newsList);
 
-        getParentFragmentManager().setFragmentResultListener("rk_news", getViewLifecycleOwner(), (requestKey, result) -> {
-            /*News n = (News) result.getSerializable("news");
-            homeAdaptor.addItem(n);*/
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy", Locale.ROOT);
-            //String str = String.valueOf(simpleDateFormat.format(n.getCreatedAt()));
-            //Log.e("Home", "Title: " +n.getTitle()+ "; CreatedAt: "+str);
-        });
+        getParentFragmentManager().setFragmentResultListener("rk_news", getViewLifecycleOwner(),
+                (requestKey, result) -> {
+                    /*News n = (News) result.getSerializable("news");
+                        homeAdaptor.addItem(n);*/
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss, dd MMM yyyy", Locale.ROOT);
+                    //String str = String.valueOf(simpleDateFormat.format(n.getCreatedAt()));
+                    //Log.e("Home", "Title: " +n.getTitle()+ "; CreatedAt: "+str);
+                });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.action_bar_menu_fragment, menu);
+        menu.removeItem(R.id.item_clean_cash);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.item_clean_cash_frag) {
+            App.dataBase.newsDao().delete(newsList);
+            homeAdaptor.addItems(newsList);
+            binding.rec.setAdapter(homeAdaptor);
+            return true;
+        }
+        return false;
     }
 
     @Override

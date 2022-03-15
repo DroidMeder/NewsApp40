@@ -1,4 +1,4 @@
-package kg.geekteck.newsapp40.ui.models;
+package kg.geekteck.newsapp40.models;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

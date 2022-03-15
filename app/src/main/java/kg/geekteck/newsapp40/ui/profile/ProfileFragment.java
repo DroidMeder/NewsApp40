@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,12 +28,13 @@ import com.bumptech.glide.Glide;
 import kg.geekteck.newsapp40.MainActivity;
 import kg.geekteck.newsapp40.R;
 import kg.geekteck.newsapp40.databinding.FragmentProfileBinding;
-import kg.geekteck.newsapp40.ui.models.Prefs;
 
 public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
     private Uri uri;
 
+    public ProfileFragment() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +49,27 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
+        setHasOptionsMenu(true);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.action_bar_menu_fragment, menu);
+        menu.removeItem(R.id.item_clean_cash);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.item_clean_cash_frag){
+            MainActivity.prefs.clean();
+            binding.imageView.setImageURI(Uri.parse(MainActivity.prefs.getImage()));
+            binding.editTextTextPersonName.setText(MainActivity.prefs.getValue());
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -53,28 +77,20 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.imageView.setOnClickListener(v -> openYourActivity());
         initEdidtext();
-        System.out.println("profile -1---" + MainActivity.prefs.getValue());
         binding.editTextTextPersonName.setText(MainActivity.prefs.getValue());
-        //  System.out.println("profile -2---"+prefs.getValue());
     }
 
     private void initEdidtext() {
         binding.editTextTextPersonName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // binding.editTextTextPersonName.setText(prefs.getValue());
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-                System.out.println("Editable  s "+s);
                 MainActivity.prefs.putText(binding.editTextTextPersonName.getText().toString());
-                System.out.println("profile -2---" + MainActivity.prefs.getValue());
             }
         });
     }
@@ -105,7 +121,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        System.out.println("onStart");
         if (MainActivity.prefs.getImage() != null) {
             uri = Uri.parse(MainActivity.prefs.getImage());
             Glide.with(requireContext()).load(uri).circleCrop().into(binding.imageView);

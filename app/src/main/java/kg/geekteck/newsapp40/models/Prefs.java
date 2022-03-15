@@ -1,4 +1,4 @@
-package kg.geekteck.newsapp40.ui.models;
+package kg.geekteck.newsapp40.models;
 
 import android.content.ContentResolver;
 import android.content.Context;

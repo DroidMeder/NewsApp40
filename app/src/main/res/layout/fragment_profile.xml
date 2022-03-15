@@ -18,12 +18,12 @@
             android:focusable="true"
             android:scaleType="centerCrop"
             android:src="@drawable/_image_rick"
-            tools:ignore="ImageContrastCheck"
-            tools:src="@tools:sample/avatars"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/editTextTextPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ImageContrastCheck"
+            tools:src="@tools:sample/avatars" />
 
         <EditText
             android:id="@+id/editTextTextPersonName"

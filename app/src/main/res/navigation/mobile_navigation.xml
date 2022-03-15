@@ -39,4 +39,9 @@
         android:name="kg.geekteck.newsapp40.ui.booarding.BoardFragment"
         android:label="fragment_board"
         tools:layout="@layout/fragment_board" />
+    <fragment
+        android:id="@+id/authenticationFragment"
+        android:name="kg.geekteck.newsapp40.ui.authentication.AuthenticationFragment"
+        android:label="fragment_authentication"
+        tools:layout="@layout/fragment_authentication" />
 </navigation>

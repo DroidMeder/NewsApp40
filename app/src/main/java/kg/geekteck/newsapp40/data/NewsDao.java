@@ -8,7 +8,7 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import kg.geekteck.newsapp40.ui.models.News;
+import kg.geekteck.newsapp40.models.News;
 
 @Dao
 public interface NewsDao {
@@ -21,4 +21,9 @@ public interface NewsDao {
 
     @Delete
     void deleteNews(News news);
+
+    @Delete
+    void delete(List<News> news);
+
+
 }
